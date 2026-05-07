@@ -1,58 +1,71 @@
 {
   "EU": {
     "name": "유럽 (EC 1223/2009)",
-    "source": "EU CosIng / Regulation (EU) 2022/1176",
+    "source": "EU CosIng / Annex II, III",
     "prohibited": [
-      "4-METHYLBENZYLIDENE CAMPHOR",
-      "4-MBC",
-      "ENZACAMENE",
-      "4-METHYLBENZYLIDENE-CAMPHOR",
-      "1,7,7-TRIMETHYL-3-(4-METHYLBENZYLIDENE)BICYCLO[2.2.1]HEPTAN-2-ONE"
+      {"name": "4-METHYLBENZYLIDENE CAMPHOR", "cas": "36861-47-9"},
+      {"name": "4-MBC", "cas": "36861-47-9"},
+      {"name": "ENZACAMENE", "cas": "36861-47-9"},
+      {"name": "METHYLISOTHIAZOLINONE", "cas": "2682-20-4"},
+      {"name": "LILIAL", "cas": "80-54-6"},
+      {"name": "BUTYLPHENYL METHYLPROPIONAL", "cas": "80-54-6"}
     ],
     "restricted": {
-      "PHENOXYETHANOL": {"max": 1.0, "source": "Annex V/29"},
-      "SALICYLIC ACID": {"max": 0.5, "source": "Annex III/98"}
-    }
-  },
-  "GCC": {
-    "name": "중동 (GSO 1943:2021)",
-    "source": "GSO 1943 Standards",
-    "prohibited": [
-      "4-METHYLBENZYLIDENE CAMPHOR",
-      "4-MBC",
-      "ENZACAMENE",
-      "PAPAVER"
-    ],
-    "restricted": {
-      "PHENOXYETHANOL": {"max": 1.0}
+      "36861-47-9": {"name": "4-MBC", "max": 0, "note": "최신 규정상 금지"},
+      "122-99-6": {"name": "PHENOXYETHANOL", "max": 1.0},
+      "69-72-7": {"name": "SALICYLIC ACID", "max": 0.5},
+      "94-13-3": {"name": "PROPYLPARABEN", "max": 0.14},
+      "94-26-8": {"name": "BUTYLPARABEN", "max": 0.14}
     }
   },
   "UK": {
     "name": "영국 (UK CR)",
     "source": "OPSS Regulation",
     "prohibited": [
-      "4-METHYLBENZYLIDENE CAMPHOR",
-      "4-MBC",
-      "ENZACAMENE"
+      {"name": "4-METHYLBENZYLIDENE CAMPHOR", "cas": "36861-47-9"},
+      {"name": "4-MBC", "cas": "36861-47-9"},
+      {"name": "LILIAL", "cas": "80-54-6"}
     ],
     "restricted": {
-      "PHENOXYETHANOL": {"max": 1.0}
+      "122-99-6": {"name": "PHENOXYETHANOL", "max": 1.0},
+      "69-72-7": {"name": "SALICYLIC ACID", "max": 0.5}
     }
   },
   "USA": {
     "name": "미국 (MoCRA/FDA)",
     "source": "FDA MoCRA",
-    "prohibited": ["BITHIONOL", "MERCURY COMPOUNDS"],
+    "prohibited": [
+      {"name": "BITHIONOL", "cas": "97-18-7"},
+      {"name": "MERCURY COMPOUNDS", "cas": "7439-97-6"}
+    ],
     "restricted": {
-      "BENZOPHENONE-3": {"max": 6.0}
+      "131-57-7": {"name": "BENZOPHENONE-3", "max": 6.0},
+      "5466-77-3": {"name": "ETHYLHEXYL METHOXYCINNAMATE", "max": 7.5}
     }
   },
   "JPN": {
     "name": "일본 (MHLW)",
     "source": "Standards for Cosmetics",
-    "prohibited": ["METHYLISOTHIAZOLINONE"],
+    "prohibited": [
+      {"name": "METHYLISOTHIAZOLINONE", "cas": "2682-20-4"}
+    ],
     "restricted": {
-      "4-METHYLBENZYLIDENE CAMPHOR": {"max": 1.0, "source": "자외선 차단제 한도"}
+      "36861-47-9": {"name": "4-MBC", "max": 1.0},
+      "122-99-6": {"name": "PHENOXYETHANOL", "max": 1.0},
+      "69-72-7": {"name": "SALICYLIC ACID", "max": 0.2}
+    }
+  },
+  "GCC": {
+    "name": "중동 (GSO 1943)",
+    "source": "GSO Standards Organization",
+    "prohibited": [
+      {"name": "4-METHYLBENZYLIDENE CAMPHOR", "cas": "36861-47-9"},
+      {"name": "4-MBC", "cas": "36861-47-9"},
+      {"name": "PAPAVER", "cas": "94-33-7"}
+    ],
+    "restricted": {
+      "122-99-6": {"name": "PHENOXYETHANOL", "max": 1.0},
+      "69-72-7": {"name": "SALICYLIC ACID", "max": 0.5}
     }
   }
 }
