@@ -1,24 +1,65 @@
 {
-  "GCC": {
-    "name": "중동 (GSO 1943)",
-    "prohibited": ["PAPAVER", "COAL TAR", "METHYLISOTHIAZOLINONE"],
+  "EU": {
+    "name": "유럽 (EC 1223/2009)",
+    "source": "EU CosIng Database / Annex II, III, IV, VI",
+    "prohibited": [
+      "4-METHYLBENZYLIDENE CAMPHOR", "ENZACAMENE", "4-MBC", "BUTYLPHENYL METHYLPROPIONAL", "LILIAL", 
+      "HYDROXYISOHEXYL 3-CYCLOHEXENE CARBOXALDEHYDE", "LYRAL", "ISOPROPYLPARABEN", "ISOBUTYLPARABEN",
+      "PHENYLPARABEN", "BENZOPHENONE-1", "BENZOPHENONE-2", "METHYLISOTHIAZOLINONE"
+    ],
     "restricted": {
-      "SALICYLIC ACID": {"max": 0.5},
-      "ZINC OXIDE": {"max": 25.0}
+      "SALICYLIC ACID": {"max": 0.5, "source": "Annex III/98"},
+      "PHENOXYETHANOL": {"max": 1.0, "source": "Annex V/29"},
+      "ZINC OXIDE": {"max": 25.0, "source": "Annex VI/30"},
+      "TITANIUM DIOXIDE": {"max": 25.0, "source": "Annex VI/27"},
+      "HOMOSALATE": {"max": 0.5, "source": "Annex VI/3 (Revised)"},
+      "ETHYLHEXYL METHOXYCINNAMATE": {"max": 10.0, "source": "Annex VI/12"}
     }
   },
-  "ASEAN": {
-    "name": "아세안 (ACD)",
-    "prohibited": ["HYDROQUINONE", "MERCURY"],
+  "UK": {
+    "name": "영국 (UK CR)",
+    "source": "Office for Product Safety and Standards (OPSS)",
+    "prohibited": [
+      "4-METHYLBENZYLIDENE CAMPHOR", "4-MBC", "BUTYLPHENYL METHYLPROPIONAL", "LILIAL", "METHYLISOTHIAZOLINONE"
+    ],
     "restricted": {
+      "SALICYLIC ACID": {"max": 0.5},
       "PHENOXYETHANOL": {"max": 1.0}
     }
   },
-  "EU": {
-    "name": "유럽 (EC 1223/2009)",
-    "prohibited": ["LYRAL", "LILIAL"],
+  "USA": {
+    "name": "미국 (MoCRA/FDA)",
+    "source": "FDA Cosmetics Direct / MoCRA Section 606",
+    "prohibited": [
+      "BITHIONOL", "CHLOROFLUOROCARBON PROPELLANTS", "HEXACHLOROPHENE", "MERCURY COMPOUNDS", "VINYL CHLORIDE"
+    ],
     "restricted": {
-      "CITRIC ACID": {"max": 10.0}
+      "BENZOPHENONE-3": {"max": 6.0},
+      "ETHYLHEXYL METHOXYCINNAMATE": {"max": 7.5},
+      "AVOBENZONE": {"max": 3.0}
+    }
+  },
+  "JPN": {
+    "name": "일본 (MHLW)",
+    "source": "Standards for Cosmetics (MHLW Notification No. 331)",
+    "prohibited": [
+      "METHYLISOTHIAZOLINONE (Leave-on 금지)", "MERCURY", "CADMIUM"
+    ],
+    "restricted": {
+      "SALICYLIC ACID": {"max": 0.2},
+      "4-METHYLBENZYLIDENE CAMPHOR": {"max": 1.0},
+      "PHENOXYETHANOL": {"max": 1.0}
+    }
+  },
+  "GCC": {
+    "name": "중동 (GSO 1943:2021)",
+    "source": "GSO Standards Organization / GSO 1943",
+    "prohibited": [
+      "4-METHYLBENZYLIDENE CAMPHOR", "4-MBC", "PAPAVER", "COAL TAR", "HYDROQUINONE (일부 금지)", "PORK FAT"
+    ],
+    "restricted": {
+      "PHENOXYETHANOL": {"max": 1.0},
+      "SALICYLIC ACID": {"max": 0.5}
     }
   }
 }
