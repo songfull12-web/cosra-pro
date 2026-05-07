@@ -1,0 +1,24 @@
+{
+  "GCC": {
+    "name": "중동 (GSO 1943)",
+    "prohibited": ["PAPAVER", "COAL TAR", "METHYLISOTHIAZOLINONE"],
+    "restricted": {
+      "SALICYLIC ACID": {"max": 0.5},
+      "ZINC OXIDE": {"max": 25.0}
+    }
+  },
+  "ASEAN": {
+    "name": "아세안 (ACD)",
+    "prohibited": ["HYDROQUINONE", "MERCURY"],
+    "restricted": {
+      "PHENOXYETHANOL": {"max": 1.0}
+    }
+  },
+  "EU": {
+    "name": "유럽 (EC 1223/2009)",
+    "prohibited": ["LYRAL", "LILIAL"],
+    "restricted": {
+      "CITRIC ACID": {"max": 10.0}
+    }
+  }
+}
