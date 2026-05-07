@@ -2,127 +2,81 @@ import streamlit as st
 import pandas as pd
 import pdfplumber
 import io
-import re
 import json
 from datetime import date
 
-st.set_page_config(
-    page_title="CosRA Pro — Global Cosmetic Regulatory Checker",
-    page_icon="🧴",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# 1. 페이지 설정
+st.set_page_config(page_title="CosRA Pro", page_icon="🧴", layout="wide")
 
-# ─────────────────────────────────────────────
-# 1. 데이터 로드 로직 (JSON 파일 연동)
-# ─────────────────────────────────────────────
+# 2. JSON 데이터 로드 함수
 @st.cache_data
-def load_db_from_json():
+def load_db():
     try:
         with open('regulations.json', 'r', encoding='utf-8') as f:
             return json.load(f)
-    except FileNotFoundError:
+    except Exception as e:
+        st.error(f"데이터 파일을 읽을 수 없습니다: {e}")
         return {}
 
-db_all = load_db_from_json()
+db_all = load_db()
 
-# ─────────────────────────────────────────────
-# 2. 성분 체크 핵심 함수
-# ─────────────────────────────────────────────
+# 3. 성분 체크 로직
 def check_ingredient(inci, cas, conc, region_data):
     name = str(inci).upper().strip()
-    
-    # 금지 성분 체크
     for p in region_data.get("prohibited", []):
         if p.upper() in name:
             return {"label": "❌ 사용금지", "color": "red"}
-            
-    # 제한 성분 체크
     rest = region_data.get("restricted", {})
     for r_name, rule in rest.items():
         if r_name.upper() in name:
             limit = rule.get("max", 100)
-            if conc is not None:
-                try:
-                    if float(conc) > limit:
-                        return {"label": f"⚠️ 한도초과 ({limit}%)", "color": "orange"}
-                except: pass
+            try:
+                if float(conc) > limit:
+                    return {"label": f"⚠️ 한도초과 ({limit}%)", "color": "orange"}
+            except: pass
             return {"label": f"✅ 준수 ({limit}%)", "color": "green"}
-            
     return {"label": "✅ 안전", "color": "blue"}
 
-# ─────────────────────────────────────────────
-# 3. CSS 스타일링
-# ─────────────────────────────────────────────
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;600&display=swap');
-html, body, [class*="css"] { font-family: 'IBM Plex Sans KR', sans-serif; }
-.main-title { font-size: 2.2rem; font-weight: 700; color: #1a1814; border-bottom: 3px solid #c8392b; padding-bottom: 8px; }
-.badge { padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
-</style>
-""", unsafe_allow_index=True)
+# 4. UI 구성
+st.title("CosRA Pro 🧴")
+st.write("중동/아세안/유럽 규제 통합 분석기")
 
-st.markdown('<div class="main-title">CosRA Pro 🧴</div>', unsafe_allow_index=True)
-st.write("Global Cosmetic Regulatory Compliance Checker (V2.1)")
-
-# ─────────────────────────────────────────────
-# 4. 사이드바 및 파일 로드
-# ─────────────────────────────────────────────
 with st.sidebar:
     st.header("⚙️ 설정")
-    if not db_all:
-        st.error("regulations.json 파일을 찾을 수 없습니다.")
-        st.stop()
-        
-    region_options = list(db_all.keys())
-    selected_regions = st.multiselect("분석 국가 선택", region_options, default=[region_options[0]])
-    
-    uploaded_file = st.file_uploader("원료 리스트 업로드", type=["pdf", "xlsx", "csv"])
+    if db_all:
+        selected_regions = st.multiselect("분석 국가 선택", list(db_all.keys()), default=list(db_all.keys())[:1])
+    uploaded_file = st.file_uploader("파일 업로드 (PDF, Excel)", type=["pdf", "xlsx", "csv"])
     run_btn = st.button("🚀 분석 시작", use_container_width=True)
 
-# ─────────────────────────────────────────────
-# 5. 메인 로직
-# ─────────────────────────────────────────────
-if run_btn and uploaded_file:
-    # 데이터 읽기 로직
-    df = None
+# 5. 실행 로직
+if run_btn and uploaded_file and db_all:
+    # 파일 읽기
     if uploaded_file.name.endswith(".pdf"):
         with pdfplumber.open(uploaded_file) as pdf:
             rows = []
             for page in pdf.pages:
                 table = page.extract_table()
                 if table: rows.extend(table)
-            if rows: df = pd.DataFrame(rows[1:], columns=rows[0])
+            df = pd.DataFrame(rows[1:], columns=rows[0]) if rows else None
     elif uploaded_file.name.endswith(".xlsx"):
         df = pd.read_excel(uploaded_file)
     else:
         df = pd.read_csv(uploaded_file)
 
     if df is not None:
-        st.subheader("📋 분석 결과")
-        
-        # 결과 계산
         results = []
         for _, row in df.iterrows():
-            inci = row.get("INCI") or row.get("Ingredient") or row.get("원료명") or ""
-            cas = row.get("CAS") or ""
+            # 컬럼명이 다를 경우를 대비해 유연하게 매칭
+            inci = row.get("INCI") or row.get("원료명") or row.get("Ingredient") or ""
             conc = row.get("Content") or row.get("농도") or 0
             
-            res_row = {"원료명": inci, "CAS": cas, "농도": conc}
+            res_row = {"원료명": inci, "농도": conc}
             for region in selected_regions:
-                check_res = check_ingredient(inci, cas, conc, db_all[region])
-                res_row[db_all[region]['name']] = check_res['label']
+                check = check_ingredient(inci, "", conc, db_all[region])
+                res_row[db_all[region]['name']] = check['label']
             results.append(res_row)
         
-        # 결과 출력
+        st.success("분석 완료!")
         st.dataframe(pd.DataFrame(results), use_container_width=True)
-        
-        # 다운로드 버튼
-        csv = pd.DataFrame(results).to_csv(index=False).encode('utf-8-sig')
-        st.download_button("📊 결과 다운로드 (CSV)", data=csv, file_name="analysis_result.csv", mime="text/csv")
     else:
-        st.error("파일에서 데이터를 읽을 수 없습니다. 형식을 확인해주세요.")
-
-elif not uploaded_file and run_btn:
-    st.warning("파일을 먼저 업로드해주세요.")
+        st.error("파일에서 데이터를 추출하지 못했습니다.")
